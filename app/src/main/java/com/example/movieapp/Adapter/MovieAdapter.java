@@ -2,10 +2,12 @@ package com.example.movieapp.Adapter;
 
 import android.content.Context;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.movieapp.ChitietMovie_Activity;
 import com.example.movieapp.Movie;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,10 +43,15 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         Movie movie = movies.get(position);
         holder.movieTitle.setText(movie.getTitle());
 
+        Log.d("GlideImageURL", "URL: " + movie.getImageUrl());
+
         Glide.with(context)
-                .load(movie.getImageUrl()) // sử dụng URL thay vì resource ID
+                .load(movie.getImageUrl())
                 .placeholder(R.drawable.placeholder_poster)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)   // thêm dòng này
+                .skipMemoryCache(true)
                 .into(holder.moviePoster);
+
 
         holder.moviePoster.setOnClickListener(v -> {
             Intent intent = new Intent(context, ChitietMovie_Activity.class);
